@@ -3,7 +3,7 @@ import unittest
 
 import xpath_obfuscator
 
-class TestDescriptionCleaner(unittest.TestCase):
+class TestXPathObfuscator(unittest.TestCase):
 
     def test_empty_text(self):
         actual = xpath_obfuscator.obfuscate("")
@@ -23,7 +23,7 @@ class TestDescriptionCleaner(unittest.TestCase):
         ('XPath with keywords 2', '[red or bright]','[token_10001 or token_10000]'),
         ('complex XPath 1', "[Part1.StatusPart2Part3_Status/Part4.Status/StatusCode = 'X1']", "[token_10000.token_10004/token_10001.token_10002/token_10003 = 'X1']")
     ])
-    def test_calculate_target_date(self, msg, input, expected):
+    def test_obfuscate_xpath(self, msg, input, expected):
         actual = xpath_obfuscator.obfuscate(input)
         self.assertEqual(expected, actual, msg)
 

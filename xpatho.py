@@ -22,7 +22,6 @@ xpatho.py /data/xpaths_1.txt
 
 from functools import reduce
 from optparse import OptionParser
-import os
 import sys
 from multiline_state import MultilineState
 
@@ -65,8 +64,10 @@ def trim_all(texts):
 
 def main():
     obfuscated_xpaths = process_file(pathToXPath)
+    obfuscated_xpaths = list(filter(len, obfuscated_xpaths))
+    obfuscated_xpaths = trim_all(obfuscated_xpaths)
 
-    print(os.linesep.join(trim_all(obfuscated_xpaths)))
+    print("\n".join(obfuscated_xpaths))
 
     print(f"# Processed {list_size_as_text(obfuscated_xpaths)} XPaths")
 

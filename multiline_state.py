@@ -14,10 +14,10 @@ class MultilineState:
         self.sub_lines.append(line)
         return self.balance == 0
 
-    def trim_all(self, texts):
+    def _trim_all(self, texts):
         return [t.strip() for t in texts]
 
     def get_combined(self):
         if (self.balance != 0):
-            raise("Error - you should only get_combined() if the multiline is balanced!")
-        return " ".join(self.trim_all(self.sub_lines))
+            raise Exception("Error - you should only call get_combined() if the multiline is balanced!")
+        return " ".join(self._trim_all(self.sub_lines))
