@@ -35,8 +35,10 @@ xpatho.py /data/xpaths_1.txt -u -e
 | XPath with keywords 2 | `[red or bright]` | `[token_10001 or token_10000]` |
 | Complex XPath 1 | `[Part1.StatusPart2Part3_Status/Part4.Status/StatusCode = 'X1']` | `[token_10000.token_10004/token_10001.token_10002/token_10003 = 'X1']` |
 
-note: by default, empty XPaths are omitted. See the options for how to override this.
-note: very short tokens (less than 3 letters) are not obfuscated
+## notes
+
+- by default, empty XPaths are omitted. See the options for how to override this.
+- very short tokens (less than 3 letters) are not obfuscated
 
 # setup
 
