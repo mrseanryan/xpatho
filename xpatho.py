@@ -10,6 +10,8 @@ Usage: xpatho.py <path to text file containing XPath expressions> [options]
 
 The options are:
 [-h --help]
+[-e --empty (Do not omit empty XPaths)]
+[-u --unique (Omit duplicates)]
 
 Examples: [Windows]
 xpatho.py testData\\xpaths_1.txt
@@ -34,6 +36,12 @@ def usage():
 # optparse - parse the args
 parser = OptionParser(
     usage='%prog <path to text file containing XPath expressions> [options]')
+parser.add_option('-e', '--empty', dest='is_keep_empties_enabled', action='store_const',
+                const=True, default=False,
+                help='Also output empty XPaths')
+parser.add_option('-u', '--unique', dest='is_unique_enabled', action='store_const',
+                const=True, default=False,
+                help='Only output unique XPaths: omit any duplicates')
 
 (options, args) = parser.parse_args()
 if (len(args) != 1):
@@ -64,8 +72,11 @@ def trim_all(texts):
 
 def main():
     obfuscated_xpaths = process_file(pathToXPath)
-    obfuscated_xpaths = list(filter(len, obfuscated_xpaths))
+    if (not(options.is_keep_empties_enabled)):
+        obfuscated_xpaths = list(filter(len, obfuscated_xpaths))
     obfuscated_xpaths = trim_all(obfuscated_xpaths)
+    if (options.is_unique_enabled):
+        obfuscated_xpaths = list(set(obfuscated_xpaths))
 
     print("\n".join(obfuscated_xpaths))
 
