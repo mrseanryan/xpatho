@@ -1,4 +1,4 @@
-# XPathO README
+# XPathO README :negative_squared_cross_mark:
 
 A command line tool to obfuscate XPath expressions (replacing any IP sensitive parts)
 
