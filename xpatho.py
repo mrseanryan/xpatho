@@ -59,7 +59,7 @@ def list_size_as_text(events):
 
 def process_file(path_to_file):
     obfuscated_xpaths = []
-    with open(path_to_file) as opened_file:
+    with open(path_to_file, encoding="utf8") as opened_file:
         state = MultilineState()
         for line in opened_file:
                 if (state.is_line_balanced(line)):
