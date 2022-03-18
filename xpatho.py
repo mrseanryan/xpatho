@@ -61,6 +61,9 @@ def process_file(path_to_file):
 
 def main():
     obfuscated_xpaths = process_file(pathToXPath)
+
+    print(obfuscated_xpaths)
+
     print(f"Processed {list_size_as_text(obfuscated_xpaths)} XPaths")
 
 if __name__ == '__main__':
