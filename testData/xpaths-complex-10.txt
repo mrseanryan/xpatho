@@ -7,4 +7,5 @@
 [IsReady]
 [identifier='[%SomeParam%]']
 [Status = 'OK']
-[Status = 'Fail']
+[Status = 
+    'Fail']

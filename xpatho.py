@@ -22,17 +22,15 @@ xpatho.py /data/xpaths_1.txt
 
 from functools import reduce
 from optparse import OptionParser
+import os
 import sys
+from multiline_state import MultilineState
 
 import xpath_obfuscator
 
 # usage() - prints out the usage text, from the top of this file :-)
-
-
 def usage():
     print(__doc__)
-
-
 
 # optparse - parse the args
 parser = OptionParser(
@@ -55,16 +53,22 @@ def list_size_as_text(events):
 def process_file(path_to_file):
     obfuscated_xpaths = []
     with open(path_to_file) as opened_file:
+        state = MultilineState()
         for line in opened_file:
-            obfuscated_xpaths.append(xpath_obfuscator.obfuscate(line))
+                if (state.is_line_balanced(line)):
+                    obfuscated_xpaths.append(xpath_obfuscator.obfuscate(state.get_combined()))
+                    state = MultilineState()
     return obfuscated_xpaths
+
+def trim_all(texts):
+    return [t.strip() for t in texts]
 
 def main():
     obfuscated_xpaths = process_file(pathToXPath)
 
-    print(obfuscated_xpaths)
+    print(os.linesep.join(trim_all(obfuscated_xpaths)))
 
-    print(f"Processed {list_size_as_text(obfuscated_xpaths)} XPaths")
+    print(f"# Processed {list_size_as_text(obfuscated_xpaths)} XPaths")
 
 if __name__ == '__main__':
     main()
