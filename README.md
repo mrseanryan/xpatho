@@ -60,6 +60,7 @@ The options are:
 [-c --csv_column (If reading a CSV file, specifies which column to read, using a 0-based index)]
 [-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
 [-h --help]
+[-o --csv_output_delimiter (The column/field delimiter to use in the output CSV file)]
 
 Examples: [Windows]
 xpatho_csv.py testData\\xpaths_1.csv temp\\xpaths_1.obfuscated.csv -csv_column 1

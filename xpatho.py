@@ -22,13 +22,11 @@ xpatho.py ./testData/xpaths_1.txt
 xpatho.py /data/xpaths_1.txt
 """
 
-import csv
 from functools import reduce
 from operator import delitem
 from optparse import OptionParser
 import os
 import sys
-import tempfile
 from multiline_state import MultilineState
 
 import xpath_obfuscator
