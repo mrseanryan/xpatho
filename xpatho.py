@@ -13,6 +13,7 @@ The options are:
 [-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
 [-e --empty (Do not omit empty XPaths)]
 [-h --help]
+[-o --output_csv (If reading a CSV file, this is the path to the new output CSV file)]
 [-u --unique (Omit duplicates)]
 
 Examples: [Windows]
@@ -26,6 +27,7 @@ xpatho.py /data/xpaths_1.txt
 
 import csv
 from functools import reduce
+from operator import delitem
 from optparse import OptionParser
 import os
 import sys
@@ -50,6 +52,9 @@ parser.add_option('-d', '--csv_delimiter', dest='csv_delimiter', type='string',
 parser.add_option('-e', '--empty', dest='is_keep_empties_enabled', action='store_const',
                 const=True, default=False,
                 help='Also output empty XPaths')
+parser.add_option('-o', '--output_csv', dest='output_csv', type='string',
+                default='',
+                help='If reading a CSV file, this is the path to the new output CSV file')
 parser.add_option('-u', '--unique', dest='is_unique_enabled', action='store_const',
                 const=True, default=False,
                 help='Only output unique XPaths: omit any duplicates')
@@ -68,6 +73,8 @@ def is_csv_file(filePath):
 if is_csv_file(pathToXPath):
     if(options.csv_column < 0):
         raise Exception("For a CSV file, you must set the option --csv_column")
+    if(len(options.output_csv) == 0):
+        raise Exception("For a CSV file, you must set the option --output_csv")
 
 def ilen(iterable):
     return reduce(lambda sum, element: sum + 1, iterable, 0)
@@ -88,26 +95,35 @@ def process_file(path_to_file):
 def trim_all(texts):
     return [t.strip() for t in texts]
 
-def process_csv_to_xpath_only(pathToFile, csv_column, csv_delimiter):
+def process_csv_to_new_csv(pathToFile, csv_column, csv_delimiter, csv_out_path):
     tmp_file = tempfile.NamedTemporaryFile(delete=False)
 
     reader = csv.reader(open(pathToFile, newline=''), delimiter=csv_delimiter, skipinitialspace = True)
 
-    with open(tmp_file.name, 'w') as f:
+    line_count = 0
+    with open(csv_out_path, 'w', newline='') as fout:
+        writer = csv.writer(fout, delimiter=csv_delimiter)
         for row in reader:
                 xpath = row[csv_column].replace("\n", " ").replace("\r", "")
-                f.write(xpath + '\n')
+                obfuscated = xpath_obfuscator.obfuscate(xpath)
+                row[csv_column] = obfuscated
+                writer.writerow(row)
+                line_count = line_count + 1
 
     tmp_file.close()
 
-    return tmp_file.name
+    return (tmp_file.name, line_count)
 
 def main():
+    obfuscated_xpaths = []
     path_to_xpath_only = pathToXPath
     if (is_csv_file(pathToXPath)):
-        path_to_xpath_only = process_csv_to_xpath_only(pathToXPath, options.csv_column, options.csv_delimiter)
+        (obfuscated_xpaths, line_count) = process_csv_to_new_csv(pathToXPath, options.csv_column, options.csv_delimiter, options.output_csv)
+        print(f"Output new CSV file with {line_count} obfuscated XPaths at {options.output_csv}")
+        return
+    else:
+        obfuscated_xpaths = process_file(path_to_xpath_only)
 
-    obfuscated_xpaths = process_file(path_to_xpath_only)
     if (not(options.is_keep_empties_enabled)):
         obfuscated_xpaths = list(filter(len, obfuscated_xpaths))
     obfuscated_xpaths = trim_all(obfuscated_xpaths)
@@ -117,8 +133,6 @@ def main():
     print("\n".join(obfuscated_xpaths))
 
     suffix = ""
-    if is_csv_file(pathToXPath):
-        suffix = " from CSV file"
     print(f"# Processed {list_size_as_text(obfuscated_xpaths)} XPaths {suffix}")
 
 if __name__ == '__main__':

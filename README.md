@@ -18,6 +18,7 @@ The options are:
 [-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
 [-e --empty (Do not omit empty XPaths)]
 [-h --help]
+[-o --output_csv (If reading a CSV file, this is the path to the new output CSV file)]
 [-u --unique (Omit duplicates)]
 
 Examples: [Windows]
