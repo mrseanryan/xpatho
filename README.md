@@ -14,6 +14,8 @@ python xpatho.py
 Usage: xpatho.py <path to text file containing XPath expressions> [options]
 
 The options are:
+[-c --csv_column (If reading a CSV file, specifies which column to read, using a 0-based index)]
+[-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
 [-e --empty (Do not omit empty XPaths)]
 [-h --help]
 [-u --unique (Omit duplicates)]

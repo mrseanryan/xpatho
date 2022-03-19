@@ -9,8 +9,10 @@ A command line tool to obfuscate XPath expressions (replacing any IP sensitive p
 Usage: xpatho.py <path to text file containing XPath expressions> [options]
 
 The options are:
-[-h --help]
+[-c --csv_column (If reading a CSV file, specifies which column to read, using a 0-based index)]
+[-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
 [-e --empty (Do not omit empty XPaths)]
+[-h --help]
 [-u --unique (Omit duplicates)]
 
 Examples: [Windows]
@@ -22,9 +24,12 @@ xpatho.py ./testData/xpaths_1.txt
 xpatho.py /data/xpaths_1.txt
 """
 
+import csv
 from functools import reduce
 from optparse import OptionParser
+import os
 import sys
+import tempfile
 from multiline_state import MultilineState
 
 import xpath_obfuscator
@@ -36,6 +41,12 @@ def usage():
 # optparse - parse the args
 parser = OptionParser(
     usage='%prog <path to text file containing XPath expressions> [options]')
+parser.add_option('-c', '--csv_column', dest='csv_column', type='int', nargs=1,
+                default=-1,
+                help='If reading a CSV file, specifies which column to read, using a 0-based index')
+parser.add_option('-d', '--csv_delimiter', dest='csv_delimiter', type='string',
+                default='\t',
+                help='If reading a CSV file, specifies the field delimiter')
 parser.add_option('-e', '--empty', dest='is_keep_empties_enabled', action='store_const',
                 const=True, default=False,
                 help='Also output empty XPaths')
@@ -50,6 +61,13 @@ if (len(args) != 1):
 
 pathToXPath = args[0]
 
+def is_csv_file(filePath):
+    extension = os.path.splitext(filePath)[1]
+    return extension.lower() == ".csv"
+
+if is_csv_file(pathToXPath):
+    if(options.csv_column < 0):
+        raise Exception("For a CSV file, you must set the option --csv_column")
 
 def ilen(iterable):
     return reduce(lambda sum, element: sum + 1, iterable, 0)
@@ -70,8 +88,26 @@ def process_file(path_to_file):
 def trim_all(texts):
     return [t.strip() for t in texts]
 
+def process_csv_to_xpath_only(pathToFile, csv_column, csv_delimiter):
+    tmp_file = tempfile.NamedTemporaryFile(delete=False)
+
+    reader = csv.reader(open(pathToFile, newline=''), delimiter=csv_delimiter, skipinitialspace = True)
+
+    with open(tmp_file.name, 'w') as f:
+        for row in reader:
+                xpath = row[csv_column].replace("\n", " ").replace("\r", "")
+                f.write(xpath + '\n')
+
+    tmp_file.close()
+
+    return tmp_file.name
+
 def main():
-    obfuscated_xpaths = process_file(pathToXPath)
+    path_to_xpath_only = pathToXPath
+    if (is_csv_file(pathToXPath)):
+        path_to_xpath_only = process_csv_to_xpath_only(pathToXPath, options.csv_column, options.csv_delimiter)
+
+    obfuscated_xpaths = process_file(path_to_xpath_only)
     if (not(options.is_keep_empties_enabled)):
         obfuscated_xpaths = list(filter(len, obfuscated_xpaths))
     obfuscated_xpaths = trim_all(obfuscated_xpaths)
@@ -80,7 +116,10 @@ def main():
 
     print("\n".join(obfuscated_xpaths))
 
-    print(f"# Processed {list_size_as_text(obfuscated_xpaths)} XPaths")
+    suffix = ""
+    if is_csv_file(pathToXPath):
+        suffix = " from CSV file"
+    print(f"# Processed {list_size_as_text(obfuscated_xpaths)} XPaths {suffix}")
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,13 @@
+"bff3c720-9982-1234-8fb1-faf4145201c2"	"[id='[someValue]']"
+"bff3c720-9982-1234-8fb1-faf4145201c2"	"[IsReady]"
+"dca79c32-1234-4060-b517-9fdbc4ef8ed9"	"[Section.Some_Part/Section2.SomePart2/Section3.Some_Part2 = $SomeVar]
+[Code = $PremiumBookingImportRow/TaxCountryCode]"
+"dca79c32-1234-4060-b517-9fdbc4ef8ed9"	"[Code = $Container1/Contained]"
+"dca79c32-1234-4060-b517-9fdbc4ef8ed9"	"[Code = $Container2Contained]"
+"dca79c32-1234-4060-b517-9fdbc4ef8ed9"	"[Value = $Value]
+[Status = 'Active']"
+"dca79c32-23-4060-b517-9fdbc4ef8ed9"	"[AutoNumber = $Level1/Level2]"
+"dca79c32-1234-4060-b517-9fdbc4ef8ed9"	"[Section.Some_Part/Section2.SomePart2/Section3.Some_Part2 = $SomeVar2]"
+"dca79c32-1234-4060-b517-9fdbc4ef8ed9"	"[Status = 'OK']"
+"dca79c32-1234-4060-b517-9fdbc4ef8ed9"	"[Status = 
+    'Fail']"

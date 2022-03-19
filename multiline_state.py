@@ -19,5 +19,5 @@ class MultilineState:
 
     def get_combined(self):
         if (self.balance != 0):
-            raise Exception("Error - you should only call get_combined() if the multiline is balanced!")
+            raise Exception("You should only call get_combined() if the multiline is balanced!")
         return " ".join(self._trim_all(self.sub_lines))
