@@ -2,7 +2,9 @@
 
 A command line tool to obfuscate XPath expressions (replacing any IP sensitive parts)
 
-# use
+# how to use
+
+## use - reading a plain text file with 1 XPath per line
 
 See the built-in help:
 
@@ -30,7 +32,7 @@ xpatho.py ./testData/xpaths_1.txt -u
 xpatho.py /data/xpaths_1.txt -u -e
 ```
 
-# examples
+## examples
 
 | Description | Input | Obfuscated Output |
 |---|---|---|
@@ -41,6 +43,35 @@ xpatho.py /data/xpaths_1.txt -u -e
 ## notes
 
 - by default, empty XPaths are omitted. See the options for how to override this.
+- very short tokens (less than 3 letters) are not obfuscated
+
+# use - reading a CSV file where 1 column has XPaths that need to be obfuscated
+
+See the built-in help:
+
+```
+python xpatho_csv.py
+```
+
+```
+Usage: xpatho_csv.py <path to CSV file containing XPath expressions> <path to output CSV file> [options]
+
+The options are:
+[-c --csv_column (If reading a CSV file, specifies which column to read, using a 0-based index)]
+[-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
+[-h --help]
+
+Examples: [Windows]
+xpatho_csv.py testData\\xpaths_1.csv temp\\xpaths_1.obfuscated.csv -csv_column 1
+xpatho_csv.py \\data\\xpaths_2.csv temp\\xpaths_2.obfuscated.csv -csv_column 1
+
+Examples: [Unix/Mac]
+xpatho_csv.py ./testData/xpaths_1.csv temp/xpaths_1.obfuscated.csv -csv_column 1
+xpatho_csv.py /data/xpaths_2.csv temp/xpaths_2.obfuscated.csv -csv_column 1
+```
+
+## notes
+
 - very short tokens (less than 3 letters) are not obfuscated
 
 # setup
