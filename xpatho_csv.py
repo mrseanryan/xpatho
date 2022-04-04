@@ -13,6 +13,7 @@ The options are:
 [-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
 [-h --help]
 [-o --csv_output_delimiter (The column/field delimiter to use in the output CSV file)]
+[-v --verbose (Verbose output to help debug)]
 
 Examples: [Windows]
 xpatho_csv.py testData\\xpaths_1.csv temp\\xpaths_1.obfuscated.csv -csv_column 1
@@ -46,6 +47,9 @@ parser.add_option('-d', '--csv_delimiter', dest='csv_delimiter', type='string',
 parser.add_option('-o', '--csv_output_delimiter', dest='csv_output_delimiter', type='string',
                 default=',',
                 help='The column/field delimiter to use in the output CSV file')
+parser.add_option('-v', '--verbose', dest='is_verbose', action='store_const',
+                const=True, default=False,
+                help='Verbose output to help debug')
 
 
 (options, args) = parser.parse_args()
@@ -71,6 +75,10 @@ def process_csv_to_new_csv(pathToFile, csv_column, csv_delimiter, csv_out_path, 
     with open(csv_out_path, 'w', newline='') as fout:
         writer = csv.writer(fout, delimiter=csv_output_delimiter)
         for row in reader:
+                if (options.is_verbose):
+                    print(f"Processing row: {row}")
+                if (csv_column >= len(row)):
+                    continue
                 xpath = row[csv_column].replace("\n", " ").replace("\r", "")
                 obfuscated = xpath_obfuscator.obfuscate(xpath)
                 row[csv_column] = obfuscated

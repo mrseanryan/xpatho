@@ -58,6 +58,7 @@ The options are:
 [-d --csv_delimiter (If reading a CSV file, specifies the field delimiter)]
 [-h --help]
 [-o --csv_output_delimiter (The column/field delimiter to use in the output CSV file)]
+[-v --verbose (Verbose output to help debug)]
 
 Examples: [Windows]
 xpatho_csv.py testData\\xpaths_1.csv temp\\xpaths_1.obfuscated.csv -csv_column 1
