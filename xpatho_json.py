@@ -63,7 +63,7 @@ def process_file(path_to_file):
                 obfuscated_xpath = xpath_obfuscator.obfuscate(xpath)
                 json_out[e].append({'projectid': projectId, 'xpath': obfuscated_xpath})
                 obfuscated_xpath_count = obfuscated_xpath_count + 1
-    print(json.dumps(json_out))
+    print(json.dumps(json_out, indent=4, sort_keys=True))
 
 def main():
     path_to_xpath_only = pathToXPath
