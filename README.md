@@ -9,7 +9,7 @@ A command line tool to obfuscate XPath expressions (replacing any IP sensitive p
 See the built-in help:
 
 ```
-python xpatho.py
+python xpatho.py [text file]
 ```
 
 ```
@@ -47,7 +47,7 @@ xpatho.py /data/xpaths_1.txt -u -e
 See the built-in help:
 
 ```
-python xpatho_csv.py
+python xpatho_csv.py [CSV file]
 ```
 
 ```
@@ -71,6 +71,34 @@ xpatho_csv.py /data/xpaths_2.csv temp/xpaths_2.obfuscated.csv -csv_column 1
 
 ## notes
 
+- very short tokens (less than 3 letters) are not obfuscated
+
+# use - reading a JSON file where a hard-coded path has XPaths that need to be obfuscated
+
+See the built-in help:
+
+```
+python xpatho_json.py [JSON file]
+```
+
+```
+Usage: xpatho_json.py <path to JSON file containing XPath expressions> [options]
+
+The options are:
+[-h --help]
+
+Examples: [Windows]
+xpatho_csv.py testData\\xpaths_1.json
+xpatho_csv.py \\data\\xpaths_2.json
+
+Examples: [Unix/Mac]
+xpatho_csv.py ./testData/xpaths_1.json
+xpatho_csv.py /data/xpaths_2.json
+```
+
+## notes
+
+- the path to the location inside the JSON file is hard-coded! So you may need to tweak the Python code, depending on your needs!
 - very short tokens (less than 3 letters) are not obfuscated
 
 # setup
