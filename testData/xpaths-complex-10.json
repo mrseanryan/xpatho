@@ -1,0 +1,14 @@
+{
+    "xpaths-complex-5-10.with-projectids":
+    [
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[IsTrue]\n[Container.Sub_Container = $Some_Variable]"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[$someVariable/Property = _Id]\n"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[Some_Element <= '[%SomeDate%]']\n[Container.SomeSection_SomeSub/Container.SomeContainer_SomeRGB_Section_Sub/Container.SomeOther_Element = $Section]"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[Container.Sub_Property = $Section]\n[SomeProp = 'Value']\n[Value != empty]\n[SomeContainer_SomeSub_SomeSub2 > $SomeVariable]\n"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[Container.Sub_Property = $Section]\n[SomeProp = 'Value']\n[Value != empty]\n[SomeContainer_SomeSub_SomeSub2 > $SomeVariable]\n"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[Some_Element > '[%SomeDate%] - 26 * [%TokenLength%]']\n[Container.SomeSection_SomeSub/Container.SomethingHere_There_EverywhereThere/Container.SomeOther_Element= $Section]"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[SomeContainer.GeoObject_ParentGeoObject[reversed()]/SomeContainer.GeoObject/SomeContainer.SomeOther_Element[reversed()]/SomeContainer.SomeProperty/SomeSection.SomeOther_Element = $SomeVariable]\n"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[SomeContainer.Some_Element = $Tomato]"},
+      {"projectid": "f85d420a-1234-44bb-ab38-854f0eeca41b", "xpath": "[SomeContainer.Some_Longer_Element_Here = '[%SomeVariable%]']"}
+    ]
+}
